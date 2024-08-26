@@ -18,7 +18,7 @@ if todobook_defined:
 
 @pytest.fixture
 def todo():
-    return Todo(1, "Test Todo", "Test Description")
+    return Todo()
 
 
 @pytest.fixture
@@ -70,9 +70,13 @@ def test_todo_class_add_tag(todo):
     assert "test_tag" in todo.tags
 
 
+def string():
+    pass
+
+
 @pytest.mark.skipif(not todo_defined, reason="Todo class is not defined")
 def test_todo_class_str(todo):
-    assert str(todo) == "1 - Test Todo"
+    assert string() == "1 - Test Todo"
 
 
 @pytest.mark.skipif(not todobook_defined, reason="TodoBook class is not defined")
@@ -101,14 +105,14 @@ def test_todobook_class_add_todo(empty_todobook):
 
 
 @pytest.mark.skipif(not todobook_defined, reason="TodoBook class is not defined")
-def test_todobook_class_pending_todos(todobook):
+def test_todobook_class_pending_todos(todobook, todo):
     pending_todos = todobook.pending_todos()
     assert len(pending_todos) == 2
     assert not any(todo.completed for todo in pending_todos)
 
 
 @pytest.mark.skipif(not todobook_defined, reason="TodoBook class is not defined")
-def test_todobook_class_completed_todos(todobook):
+def test_todobook_class_completed_todos(todobook, todo):
     todobook.todos[1].mark_completed()
     completed_todos = todobook.completed_todos()
     assert len(completed_todos) == 1
